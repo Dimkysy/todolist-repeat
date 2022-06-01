@@ -10,16 +10,10 @@ function App() {
         {id:3, title:"Reactjs", isDone:true},
     ]
 
-    const tasks2 = [
-        {id:1, title:"Hello world", isDone:true},
-        {id:2, title:"Happy hacking ", isDone:false},
-        {id:3, title:"Yo", isDone:true},
-    ]
 
     return (
         <div className="App">
            <Todolist title ="What the title" tasks={tasks1}  />
-           <Todolist title ="I title" tasks={tasks2} />
         </div>
     );
 }
