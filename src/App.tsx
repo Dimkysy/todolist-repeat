@@ -11,9 +11,6 @@ function App() {
     ])
 
     function removeTask(id:number) {
-
-        debugger
-
         let fileteredTasks = tasks.filter(t => t.id != id)
         setTasks(fileteredTasks)
     }
