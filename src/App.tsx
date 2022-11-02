@@ -26,6 +26,10 @@ function App() {
         setTasks(filteredTasks)
     }
 
+    let addTasks = (title:string) => {
+        let task = {id:v1(), title:title, isDone:false}
+        setTasks([task, ...tasks])
+    }
 
     let tasksForTodolist = tasks
 
@@ -48,6 +52,7 @@ function App() {
                       tasks={tasksForTodolist}
                       removeTasks = {removeTasks}
                       changeFilter = {changeFilter}
+                      addTasks = {addTasks}
             />
         </div>
     );
