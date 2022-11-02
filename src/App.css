@@ -6,3 +6,6 @@
 .App > div {
   margin-right: 50px;
 }
+.removeButton {
+  margin-left: 5px;
+}
