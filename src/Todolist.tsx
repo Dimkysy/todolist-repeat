@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {FilterValuesType} from "./App";
 
 type propsTask = {
-    id:number
+    id:string
     title:string
     isDone:boolean
 }
@@ -10,20 +10,39 @@ type propsTask = {
 type propsTodolist = {
     title:string
     task:Array<propsTask>
-    removeTask:(id:number) => void
+    removeTask:(id:string) => void
     filteredTask:(filter:FilterValuesType) => void
+    addTask:(title:string) => void
 }
 
 
 function Todolist(props:propsTodolist) {
-    debugger
+    let [title, setTitle] = useState("Hello")
+
+    const addTask = () => {
+        props.addTask(title)
+        setTitle("")
+    }
+
+    const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.currentTarget.value)
+    }
+    // @ts-ignore
+    const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            addTask()
+        }
+    }
 
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                />
+                <button onClick={addTask}>+</button>
             </div>
 
             <ul>
