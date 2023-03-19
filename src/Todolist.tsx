@@ -1,63 +1,42 @@
-import React, {ChangeEvent, useState} from "react";
-import { FilterValuesType } from "./App";
+import React from 'react';
 
-type TaskType = {
-    id:string
+type propsTask = {
+    id:number
     title:string
     isDone:boolean
 }
 
-type PropsType = {
+type propsTodolist = {
     title:string
-    tasks:Array<TaskType>
-    removeTask:(id:string) => void
-    changeFilter:(value:FilterValuesType) => void
-    addTask:(title:string) => void
+    task:Array<propsTask>
 }
 
-export function Todolist(props:PropsType) {
 
-    let [title, setTitle] = useState("")
-
-    const onChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.currentTarget.value)
-    }
-    // @ts-ignore
-    const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            addTask()
-        }
-    }
-
-    const addTask = () => {
-        props.addTask(title)
-        setTitle("")
-    }
+function Todolist(props:propsTodolist) {
+    debugger
 
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value = {title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler}/>
-                <button onClick={addTask}>+</button>
+                <input/>
+                <button>+</button>
             </div>
-
-
             <ul>
-                {props.tasks.map((task)=> {
-                    return (
-                        <li key={task.id}><input type="checkbox" checked={task.isDone}/> <span>{task.title}</span>
-                            <button onClick={ () => props.removeTask(task.id)}>x</button>
-                        </li>
-                    )
-                })}
+                <li><input type="checkbox" checked={props.task[0].isDone}/> <span>{props.task[0].title}</span></li>
+                <li><input type="checkbox" checked={props.task[1].isDone}/> <span>{props.task[1].title}</span></li>
+                <li><input type="checkbox" checked={props.task[2].isDone}/> <span>{props.task[2].title}</span></li>
             </ul>
 
+
             <div>
-                <button onClick={()=> props.changeFilter("all")}>All</button>
-                <button onClick={()=> props.changeFilter("active")}>Active</button>
-                <button onClick={() => props.changeFilter("completed")}>Completed</button>
+                <button>All</button>
+                <button>Active</button>
+                <button>Completed</button>
             </div>
         </div>
     )
 }
+
+
+export default Todolist
