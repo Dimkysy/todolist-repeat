@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import {FilterValuesType} from "./App";
 
-type propsTask = {
+export type TaskType = {
     id:string
     title:string
     isDone:boolean
@@ -9,12 +9,14 @@ type propsTask = {
 
 type propsTodolist = {
     title:string
-    task:Array<propsTask>
+    task:Array<TaskType>
     filter:FilterValuesType
-    removeTask:(id:string) => void
-    filteredTask:(filter:FilterValuesType) => void
-    addTask:(title:string) => void
-    changeTaskStatus:(id:string, isDone:boolean) => void
+    id:string
+    removeTask:(id:string,todolistId:string) => void
+    filteredTask:(filter:FilterValuesType,todolistId:string) => void
+    addTask:(title:string,todolistId:string) => void
+    changeTaskStatus:(id:string, isDone:boolean,todolistId:string) => void
+    removeTodolist:(id:string)=> void
 }
 
 
@@ -24,7 +26,7 @@ function Todolist(props:propsTodolist) {
 
     const addTask = () => {
         if(title.trim() !== "") {
-            props.addTask(title.trim())
+            props.addTask(title.trim(),props.id)
             setTitle("")
         }
         else {
@@ -45,7 +47,10 @@ function Todolist(props:propsTodolist) {
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>{props.title}
+                <button onClick={ () =>  props.removeTodolist(props.id)} >x</button>
+            </h3>
+
             <div>
                 <input value={title}
                        onChange={onChangeHandler}
@@ -57,10 +62,10 @@ function Todolist(props:propsTodolist) {
 
             <ul>
                 {props.task.map((t) => {
-                    const onClickHandler = () => {props.removeTask(t.id)}
+                    const onClickHandler = () => {props.removeTask(t.id, props.id)}
                     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
                         let newIsDoneValue = e.currentTarget.checked
-                        props.changeTaskStatus(t.id, newIsDoneValue)
+                        props.changeTaskStatus(t.id, newIsDoneValue, props.id)
                     }
 
                     return (
@@ -74,11 +79,11 @@ function Todolist(props:propsTodolist) {
 
             <div>
                 <button className={props.filter === "all" ? "active-filter" : ""}
-                    onClick={()=> props.filteredTask("all")} >All</button>
+                    onClick={()=> props.filteredTask("all", props.id)} >All</button>
                 <button className={props.filter === "active" ? "active-filter" : ""}
-                    onClick={()=> props.filteredTask("active")}>Active</button>
+                    onClick={()=> props.filteredTask("active", props.id)}>Active</button>
                 <button className={props.filter === "complited" ? "active-filter" : ""}
-                    onClick={()=> props.filteredTask("complited")}>Completed</button>
+                    onClick={()=> props.filteredTask("complited", props.id)}>Completed</button>
             </div>
         </div>
     )
