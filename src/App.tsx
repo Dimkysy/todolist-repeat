@@ -8,18 +8,21 @@ export type FilterValuesType = "all" | "active" | "complited"
 
 function App() {
 
-    let [task, setTask] = useState([
+    let [tasks, setTask] = useState([
         {id: v1(), title: "Html&CSS", isDone: true},
         {id: v1(), title: "JS", isDone: false},
-        {id: v1(), title: "ReactJS", isDone: true}
+        {id: v1(), title: "ReactJS", isDone: true},
+        {id: v1(), title: "Beaarr", isDone: false},
+        {id: v1(), title: "Hello", isDone: true},
+        {id: v1(), title: "Hi you Hi", isDone: false},
     ])
 
     let [filter, setFilter] = useState<FilterValuesType>("all")
-    let taskForTodolist = task
+    let taskForTodolist = tasks
 
 
     function removeTask(id:string) {
-        let newTask = task.filter(t => t.id !== id)
+        let newTask = tasks.filter(t => t.id !== id)
         setTask(newTask)
     }
 
@@ -30,19 +33,28 @@ function App() {
             title:title,
             isDone:false,
         }
-        setTask([newTask, ...task])
+        setTask([newTask, ...tasks])
 
     }
 
     if (filter === "active") {
-        taskForTodolist = task.filter(t => t.isDone == false )
+        taskForTodolist = tasks.filter(t => t.isDone == false )
     }
     if (filter === "complited") {
-        taskForTodolist = task.filter(t => t.isDone == true)
+        taskForTodolist = tasks.filter(t => t.isDone == true)
     }
     function filteredTask(filter:FilterValuesType) {
         setFilter(filter)
     }
+
+    function changeTaskStatus(id:string, isDone:boolean) {
+        let task = tasks.find(t => t.id === id)
+        if(task) {
+            task.isDone = isDone
+            setTask([...tasks])
+        }
+    }
+
 
     return (
         <div className="App">
@@ -51,6 +63,8 @@ function App() {
                       removeTask = {removeTask}
                       filteredTask = {filteredTask}
                       addTask = {addTask}
+                      changeTaskStatus = {changeTaskStatus}
+                      filter = {filter}
             />
         </div>
     );
