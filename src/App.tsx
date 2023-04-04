@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import Todolist, {TaskType} from "./Todolist";
 import {v1} from 'uuid';
+import AddItemForm from "./AddItemForm";
 
 
 export type FilterValuesType = "all" | "active" | "complited"
@@ -17,8 +18,6 @@ type TasksStateType = {
 }
 
 function App() {
-
-
 
     let todolistID1 = v1()
     let todolistID2 = v1()
@@ -56,6 +55,17 @@ function App() {
         setTask({...tasks})
     }
 
+    function addTodolist(title:string) {
+        let newTodolistsId = v1()
+        let newTodolist:TodolistType = {id:newTodolistsId, title:title, filter:"all"}
+        setTodolists([newTodolist, ...todolists])
+
+        setTask({
+            ...tasks,
+            [newTodolistsId]:[]
+        })
+    }
+
     function addTask(title: string, todolistId:string) {
 
         let newTask = {
@@ -68,7 +78,6 @@ function App() {
         setTask({...tasks})
 
     }
-
 
     function filteredTask(filter: FilterValuesType, todolistId:string) {
         let todilist = todolists.find(tl => tl.id === todolistId)
@@ -88,10 +97,30 @@ function App() {
         }
     }
 
+    function onChangeSpan(todolistId:string, id:string, title:string ) {
+        let todolistTasks = tasks[todolistId]
 
+        let task = todolistTasks.find(t => t.id === id)
+        if (task) {
+            task.title = title
+            setTask({...tasks})
+        }
+    }
+
+    function onChangeTitle(todolistId:string, title:string ) {
+
+        let task = todolists.find(t => t.id === todolistId)
+        if (task) {
+            task.title = title
+            setTodolists([...todolists])
+        }
+    }
 
     return (
         <div className="App">
+
+            <AddItemForm addItem = {addTodolist} />
+
             {
                 todolists.map(todolist => {
 
@@ -117,6 +146,8 @@ function App() {
                         addTask={addTask}
                         changeTaskStatus={changeTaskStatus}
                         removeTodolist = {removeTodolist}
+                        onChangeSpan = {onChangeSpan}
+                        onChangeTitle = {onChangeTitle}
                     />
                 })
             }
