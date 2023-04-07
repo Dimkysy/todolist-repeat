@@ -1,9 +1,11 @@
 import React, {ChangeEvent, useState} from 'react';
-import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import {IconButton} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
 
 
 type AddItemFormProps = {
-     addItem:(title:string) => void
+    addItem: (title: string) => void
 }
 
 
@@ -34,16 +36,20 @@ const AddItemForm = (props: AddItemFormProps) => {
 
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-            />
-            <Button variant="contained"
-                    color = 'primary'
-                    style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
 
-                    onClick={addItem}>+</Button>
-            {error && <div className={"error-message"}>{error}</div>}
+            <TextField id="standard-basic" label="Title" variant="standard"
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       error={!!error}
+                       helperText={error}
+            />
+
+            <IconButton
+                    color='primary'
+                    onClick={addItem}>
+                <AddBox/>
+            </IconButton>
         </div>
     )
 }
