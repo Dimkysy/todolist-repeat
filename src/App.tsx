@@ -38,6 +38,7 @@ function App() {
             {id: v1(), title: "Beaarr", isDone: false},
             {id: v1(), title: "Hello", isDone: true},
             {id: v1(), title: "Hi you Hi", isDone: false},
+            {id: v1(), title: "Bear", isDone: false},
         ]
     })
 
