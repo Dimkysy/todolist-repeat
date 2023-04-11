@@ -10,7 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 
 export type FilterValuesType = "all" | "active" | "complited"
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
